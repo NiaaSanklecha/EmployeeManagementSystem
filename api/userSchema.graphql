@@ -1,0 +1,71 @@
+enum titleType{
+    Employee
+    Manager
+    Director
+    VP
+}
+enum departmentType{
+    IT
+    Marketing
+    HR
+    Engineering
+}
+enum employee{
+FullTime
+PartTime
+Contract
+Seasonal
+}
+
+type Employee{
+    _id: ID!
+    id: Int
+    firstname: String
+    lastname: String
+    age: Int
+    dateOfJoining: GraphQLDate
+    retirementDate: GraphQLDate
+    title: titleType
+    department: departmentType
+    employeeType: employee
+    currentStatus: Int
+}
+
+scalar GraphQLDate
+
+type Query {
+  upcomingRetirements (employeeType : employee) : [Employee!]!
+  employeeList(
+    employeeType : employee ): [Employee!]!
+    employee(id: Int!): Employee!
+}
+
+input EmployeeInput {
+    
+    firstname: String
+    lastname: String
+    age: Int
+    dateOfJoining: GraphQLDate
+    retirementDate: GraphQLDate
+    title: titleType = new
+    department: departmentType = new
+    employeeType: employee = new
+    currentStatus: Int
+}
+input EmployeeUpdateInputs {
+  firstname: String
+    lastname: String
+    age: Int
+    dateOfJoining: GraphQLDate
+    retirementDate: GraphQLDate
+    title: titleType = new
+    department: departmentType = new
+    employeeType: employee = new
+    currentStatus: Int
+}
+
+type Mutation {
+  addEmployee(employee: EmployeeInput!): Employee!
+  employeeUpdate(id: Int!, changes: EmployeeUpdateInputs!): Employee!
+  employeeDelete(id: Int!): Boolean!
+}
